@@ -41,6 +41,30 @@ steps:
     event:
     - push
 
+- name: deploy_to_dev
+  pull: if-not-exists
+  image: quay.io/ukhomeofficedigital/kd
+  commands:
+  - export KUBE_TOKEN=$$NOTPROD_KUBE_TOKEN
+  - export KUBE_SERVER=$$NOTPROD_KUBE_SERVER
+  - export AWS_ACCESS_KEY_ID=$$CI_AWS_ACCESS_KEY_ID
+  - export AWS_SECRET_ACCESS_KEY=$$CI_AWS_SECRET_ACCESS_KEY
+  - export BUCKET=$$NOTPROD_BUCKET
+  - kd --delete --file kube/deployment.yml
+  - kd -f kube/secret.yml -f kube/deployment.yml
+  environment:
+    INSECURE_SKIP_TLS_VERIFY: true
+    KUBE_NAMESPACE: dq-apps-notprod
+    AWS_ACCESS_KEY_ID:
+      from_secret: CI_AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY:
+      from_secret: CI_AWS_SECRET_ACCESS_KEY
+    BUCKET:
+      from_secret: NOTPROD_BUCKET
+  when:
+    event:
+    - push
+
 services:
   - name: docker
     image: 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/dind
