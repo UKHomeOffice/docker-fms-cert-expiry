@@ -30,7 +30,7 @@ spec:
         ports:
           - containerPort: 5000
       - name: fms-cert-expiry
-        image: quay.io/ukhomeofficedigital/fms_cert-expiry:{{ .DRONE_COMMIT_SHA }}
+        image: quay.io/ukhomeofficedigital/fms_cert_expiry:{{ .DRONE_COMMIT_SHA }}
         imagePullPolicy: Always
         securityContext:
           runAsNonRoot: true
