@@ -38,6 +38,8 @@ spec:
               secretKeyRef:
                 name: fms-cert-expiry
                 key: BUCKET
+          - name: FMS_CERT_EXPIRY_PORT
+            value: "443"
         # volumeMounts:
         # - name: sftp-key
         #   mountPath: /key
