@@ -15,6 +15,10 @@ spec:
     spec:
       securityContext:
         fsGroup: 1000
+      volumes:
+      - name: fms-cert-expiry-volume
+        persistentVolumeClaim:
+          claimName: fms-cert-expiry-volume
       containers:
       - name: fms-cert-expiry
         image: quay.io/ukhomeofficedigital/fms_cert-expiry:{{ .DRONE_COMMIT_SHA }}
@@ -40,9 +44,6 @@ spec:
                 key: BUCKET
           - name: FMS_CERT_EXPIRY_PORT
             value: "443"
-        # volumeMounts:
-        # - name: sftp-key
-        #   mountPath: /key
-        #   readOnly: true
-        # - name: nats-volume
-        #   mountPath: /NATS
+        volumeMounts:
+        - name: fms-cert-expiry-volume
+          mountPath: /home/ssl_expire_script
