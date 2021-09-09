@@ -46,8 +46,23 @@ spec:
               secretKeyRef:
                 name: fms-cert-expiry
                 key: AWS_SECRET_ACCESS_KEY
+          - name: AWS_DEFAULT_REGION
+            valueFrom:
+              secretKeyRef:
+                name: fms-cert-expiry
+                key: AWS_DEFAULT_REGION
           - name: BUCKET
             valueFrom:
               secretKeyRef:
                 name: fms-cert-expiry
                 key: BUCKET
+          - name: GET_EXPIRY_COMMAND
+            valueFrom:
+              secretKeyRef:
+                name: fms-cert-expiry
+                key: GET_EXPIRY_COMMAND
+          - name: SLACK_NOTIFICATION_WEBHOOK
+            valueFrom:
+              secretKeyRef:
+                name: fms-cert-expiry
+                key: SLACK_NOTIFICATION_WEBHOOK

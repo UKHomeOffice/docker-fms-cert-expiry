@@ -2,8 +2,6 @@ FROM centos:centos8
 
 ENV USERMAP_UID 1000
 ENV HOME /home/ssl_expire_script
-ENV AWS_DEFAULT_REGION   eu-west-2
-ENV GET_EXPIRY_COMMAND   'openssl x509 -enddate -noout -in /home/ssl_expire_script/fms-certificate.pem'
 
 
 RUN yum update -y --quiet \

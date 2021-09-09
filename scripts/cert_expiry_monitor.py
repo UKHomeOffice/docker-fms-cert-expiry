@@ -25,6 +25,7 @@ now = datetime.datetime.today()
 now = now.strftime("%Y-%m-%d %H:%M:%S")
 bucket = os.getenv('BUCKET')
 home = os.getenv('HOME')
+slack_notification_webhook = os.getenv('SLACK_NOTIFICATION_WEBHOOK')
 
 def error_handler(lineno, error, fail=True):
 
@@ -76,7 +77,7 @@ def send_message_to_slack(text):
             ]
         }
 
-        ssm_param_name = 'slack_notification_webhook'
+        ssm_param_name = slack_notification_webhook
         ssm = boto3.client('ssm', config=CONFIG, region_name='eu-west-2')
         try:
             response = ssm.get_parameter(

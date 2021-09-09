@@ -50,6 +50,9 @@ steps:
   - export AWS_ACCESS_KEY_ID=$$CI_AWS_ACCESS_KEY_ID
   - export AWS_SECRET_ACCESS_KEY=$$CI_AWS_SECRET_ACCESS_KEY
   - export BUCKET=$$NOTPROD_BUCKET
+  - export AWS_DEFAULT_REGION=$$AWS_DEFAULT_REGION
+  - export GET_EXPIRY_COMMAND=$$GET_EXPIRY_COMMAND
+  - export SLACK_NOTIFICATION_WEBHOOK=$$NOTPROD_SLACK_NOTIFICATION_WEBHOOK
   - kd --delete --file kube/deployment.yml
   - kd -f kube/secret.yml -f kube/deployment.yml
   environment:
@@ -65,6 +68,12 @@ steps:
       from_secret: CI_AWS_SECRET_ACCESS_KEY
     NOTPROD_BUCKET:
       from_secret: NOTPROD_BUCKET
+    AWS_DEFAULT_REGION:
+      from_secret: AWS_DEFAULT_REGION
+    GET_EXPIRY_COMMAND:
+      from_secret: GET_EXPIRY_COMMAND
+    SLACK_NOTIFICATION_WEBHOOK:
+      from_secret: SLACK_NOTIFICATION_WEBHOOK
   when:
     event:
     - push
