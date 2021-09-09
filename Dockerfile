@@ -30,4 +30,4 @@ USER ${USERMAP_UID}
 
 WORKDIR /home/ssl_expire_script
 
-CMD ["python3 cert_expiry_monitor.py"]
+CMD tail -f /dev/null
