@@ -1,0 +1,46 @@
+# ---
+kind: pipeline
+name: default
+type: kubernetes
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: build
+  pull: if-not-exists
+  image: plugins/docker
+  settings:
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+    dockerfile: Dockerfile
+    force_tag: true
+    registry: quay.io
+    repo: quay.io/ukhomeofficedigital/fms_cert_expiry
+    tags:
+    - ${DRONE_COMMIT_SHA}
+    - ${DRONE_BUILD_NUMBER}
+  when:
+    branch:
+      exclude:
+      - master
+    event:
+    - push
+
+- name: trivy_scan
+  pull: if-not-exists
+  image: quay.io/ukhomeofficedigital/trivyscanner:b82
+  commands:
+  - trivy --ignore-unfixed --exit-code 1 --no-progress quay.io/ukhomeofficedigital/fms_cert_expiry:${DRONE_COMMIT_SHA}
+  when:
+    branch:
+      exclude:
+      - master
+    event:
+    - push
+
+services:
+  - name: docker
+    image: 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/dind
