@@ -51,7 +51,7 @@ steps:
   - export AWS_SECRET_ACCESS_KEY=$$CI_AWS_SECRET_ACCESS_KEY
   - export BUCKET=$$NOTPROD_BUCKET
   - kd --delete --file kube/deployment.yml
-  - kd -f kube/pvc.yml -f kube/secret.yml -f kube/deployment.yml
+  - kd -f kube/secret.yml -f kube/deployment.yml
   environment:
     INSECURE_SKIP_TLS_VERIFY: true
     KUBE_NAMESPACE: dq-apps-notprod
