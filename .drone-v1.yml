@@ -63,7 +63,7 @@ steps:
       from_secret: CI_AWS_ACCESS_KEY_ID
     CI_AWS_SECRET_ACCESS_KEY:
       from_secret: CI_AWS_SECRET_ACCESS_KEY
-    BUCKET:
+    NOTPROD_BUCKET:
       from_secret: NOTPROD_BUCKET
   when:
     event:
