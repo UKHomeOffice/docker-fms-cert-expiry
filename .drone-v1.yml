@@ -18,7 +18,7 @@ steps:
     dockerfile: Dockerfile
     force_tag: true
     registry: quay.io
-    repo: quay.io/ukhomeofficedigital/fms_cert_expiry:{{ .DRONE_COMMIT_SHA }}
+    repo: quay.io/ukhomeofficedigital/fms_cert_expiry
     tags:
     - ${DRONE_COMMIT_SHA}
     - ${DRONE_BUILD_NUMBER}
