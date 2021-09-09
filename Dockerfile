@@ -29,3 +29,5 @@ COPY 'scripts/cert_expiry_monitor.py' '/home/ssl_expire_script'
 USER ${USERMAP_UID}
 
 WORKDIR /home/ssl_expire_script
+
+CMD ["python3 cert_expiry_monitor.py"]

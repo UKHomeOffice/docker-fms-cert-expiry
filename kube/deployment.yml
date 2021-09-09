@@ -17,7 +17,7 @@ spec:
         fsGroup: 1000
       containers:
       - name: fms-cert-expiry
-        image: quay.io/ukhomeofficedigital/fms_cert_expiry:1
+        image: quay.io/ukhomeofficedigital/fms_cert-expiry:{{ .DRONE_COMMIT_SHA }}
         imagePullPolicy: Always
         securityContext:
           runAsNonRoot: true
