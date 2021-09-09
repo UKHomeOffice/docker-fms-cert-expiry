@@ -15,11 +15,20 @@ spec:
     spec:
       securityContext:
         fsGroup: 1000
-      volumes:
-      - name: fms-cert-expiry-volume
-        persistentVolumeClaim:
-          claimName: fms-cert-expiry-volume
       containers:
+      - name: opensslsidekick
+        image: quay.io/ukhomeofficedigital/dq-haproxy-openssl-sidekick:master
+        imagePullPolicy: Always
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1000
+        env:
+        - name: HOST
+          value: '10.3.0.11'
+        - name: PORT
+          value: '8089'
+        ports:
+          - containerPort: 5000
       - name: fms-cert-expiry
         image: quay.io/ukhomeofficedigital/fms_cert-expiry:{{ .DRONE_COMMIT_SHA }}
         imagePullPolicy: Always
@@ -42,8 +51,3 @@ spec:
               secretKeyRef:
                 name: fms-cert-expiry
                 key: BUCKET
-          - name: FMS_CERT_EXPIRY_PORT
-            value: "443"
-        volumeMounts:
-        - name: fms-cert-expiry-volume
-          mountPath: /home/ssl_expire_script
