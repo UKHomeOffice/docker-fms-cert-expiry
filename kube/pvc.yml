@@ -7,6 +7,3 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
-  resources:
-    requests:
-      storage: {{ .FMS_CERT_EXPIRY_PVC_SIZE }}

@@ -26,13 +26,6 @@ spec:
         securityContext:
           runAsNonRoot: true
           runAsUser: 1000
-        resources:
-          limits:
-            cpu: {{.FMS_CERT_EXPIRY_CPU_LIMIT}}
-            memory: {{.FMS_CERT_EXPIRY_RAM_LIMIT}}
-          requests:
-            cpu: {{.FMS_CERT_EXPIRY_CPU_REQUEST}}
-            memory: {{.FMS_CERT_EXPIRY_RAM_REQUEST}}
         env:
           - name: AWS_ACCESS_KEY_ID
             valueFrom:
