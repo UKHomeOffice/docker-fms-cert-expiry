@@ -59,9 +59,9 @@ steps:
       from_secret: NOTPROD_KUBE_TOKEN
     NOTPROD_KUBE_SERVER:
       from_secret: NOTPROD_KUBE_SERVER
-    AWS_ACCESS_KEY_ID:
+    CI_AWS_ACCESS_KEY_ID:
       from_secret: CI_AWS_ACCESS_KEY_ID
-    AWS_SECRET_ACCESS_KEY:
+    CI_AWS_SECRET_ACCESS_KEY:
       from_secret: CI_AWS_SECRET_ACCESS_KEY
     BUCKET:
       from_secret: NOTPROD_BUCKET
