@@ -138,6 +138,9 @@ def check_expiry():
         renewal_length = enddate_obj - now_obj
         logging.info(f"Renewal length: {renewal_length}")
 
+        os.system(f"aws s3 cp expiry.log s3://{bucket}/")
+        logging.info(f"Uploaded expiry.log to: {bucket}")
+
         #if we have 0 days to renew send message to slack
         if renewal_length <= datetime.timedelta(days=0):
            logging.info(f"Your SSL Certificates for fms has expired by {renewal_length} days")
