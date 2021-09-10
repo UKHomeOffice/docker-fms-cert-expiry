@@ -55,14 +55,30 @@ The POD consists of 3 (three) Docker containers responsible for handling data.
 
 ## Data flow
 
-- *dq-nats-data-ingest* GET files from an external SFTP server
-- *dq-nats-data-ingest* DELETE files from SFTP
-- sending these files to *dq-clamav* scanner with destination *dq-clamav:443*
-- *OK* or *!OK* response text is sent back to *dq-nats-data-ingest*
-  - *IF OK* file is uploaded to S3 and deleted from local storage
-  - *IF !OK* file is moved to quarantine on the PVC
+- *fms-cert-expiry* GET SSL certificate from S3 and saves in working dir
+- *fms-cert-expiry* Runs openssl cmd on Certificate to get end date
+- writes that end date to *cert_expiry.txt* and formates string to datetime
+- checks the datetime against current time difference
+  - if less than 1 month, send message to slack
+  - if grater than 1 month does nothing
 
-## Drone secrets
+## Expriry Log
+
+ ```
+INFO:root:Certificate expiry datetime is: 2023-01-22 13:25:16
+INFO:root:Current datetime is: 2021-09-09 22:01:35
+INFO:root:Renewal length: 499 days, 15:23:41
+INFO:root:Certificates are Valid: 499 days, 15:23:41 Remaning before expiry approaches...
+INFO:botocore.credentials:Found credentials in environment variables.
+INFO:root:Sending notification to Slack
+INFO:root:Certificate expiry datetime is: 2023-01-22 13:25:16
+INFO:root:Current datetime is: 2021-09-09 22:03:40
+INFO:root:Renewal length: 499 days, 15:21:36
+INFO:root:Certificates are Valid: 499 days, 15:21:36 Remaning before expiry approaches...
+INFO:botocore.credentials:Found credentials in environment variables.
+INFO:root:Sending notification to Slack
+
+ ```
 
 Environmental variables are set in Drone based on secrets listed in the *.drone.yml* file and they are passed to Kubernetes as required.
 
