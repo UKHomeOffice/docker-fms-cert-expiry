@@ -1,0 +1,84 @@
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  namespace: {{ .KUBE_NAMESPACE }}
+  name: fms-cert-expiry
+  annotations:
+    environment: {{ .ENV }}
+spec:
+  schedule: "0 /3 * * * *"
+  concurrencyPolicy: Forbid
+  failedJobsHistoryLimit: 3
+  successfulJobsHistoryLimit: 3
+  jobTemplate:
+    metadata:
+      creationTimestamp: null
+    spec:
+      template:
+        metadata:
+          labels:
+            name: fms-cert-expiry
+        spec:
+          containers:
+          - name: opensslsidekick
+            image: quay.io/ukhomeofficedigital/dq-haproxy-openssl-sidekick:master
+            imagePullPolicy: Always
+            securityContext:
+              runAsNonRoot: true
+              runAsUser: 1000
+            env:
+            - name: HOST
+              value: '10.3.0.11'
+            - name: PORT
+              value: '8089'
+            ports:
+              - containerPort: 5000
+          - name: fms-cert-expiry
+            command: ['sh', '-c', 'sleep 60 && python3 cert_expiry_monitor.py']
+            image: quay.io/ukhomeofficedigital/fms-cert-expiry:{{ .DRONE_COMMIT_SHA }}
+            imagePullPolicy: Always
+            securityContext:
+              runAsNonRoot: true
+              runAsUser: 1000
+            resources:
+              limits:
+                memory: "1024Mi"
+                cpu: "600m"
+              requests:
+                memory: "512Mi"
+                cpu: "500m"
+            env:
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: fms-cert-expiry
+                  key: AWS_ACCESS_KEY_ID
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: fms-cert-expiry
+                  key: AWS_SECRET_ACCESS_KEY
+            - name: BUCKET
+              valueFrom:
+                secretKeyRef:
+                  name: fms-cert-expiry
+                  key: BUCKET
+            - name: AWS_DEFAULT_REGION
+              valueFrom:
+                secretKeyRef:
+                  name: fms-cert-expiry
+                  key: AWS_DEFAULT_REGION
+            - name: GET_EXPIRY_COMMAND
+              valueFrom:
+                secretKeyRef:
+                  name: fms-cert-expiry
+                  key: GET_EXPIRY_COMMAND
+            - name: SLACK_NOTIFICATION_WEBHOOK
+              valueFrom:
+                secretKeyRef:
+                  name: fms-cert-expiry
+                  key: SLACK_NOTIFICATION_WEBHOOK
+          restartPolicy: OnFailure
+          imagePullSecrets:
+            - name: ga-backend-artifactory-secret
