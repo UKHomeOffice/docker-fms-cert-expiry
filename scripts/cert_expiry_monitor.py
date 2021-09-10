@@ -146,15 +146,14 @@ def check_expiry():
            logging.info(f"Your SSL Certificates for fms has expired by {renewal_length} days")
            send_message_to_slack(f"Your SSL Certificates for fms has expired by {renewal_length} days")
 
-        #if we have between 1 and 15 days left to renew send message to slack
-        if  renewal_length <= datetime.timedelta(days=15) and renewal_length > datetime.timedelta(days=0):
+        #if we have between 1 and 30 days left to renew send message to slack
+        if  renewal_length <= datetime.timedelta(days=30) and renewal_length > datetime.timedelta(days=0):
             logging.info(f"Your SSL Certificates for fms is about to expire in {renewal_length} days")
             send_message_to_slack(f"Your SSL Certificates for fms is about to expire in {renewal_length} days")
 
-        #if we have more than 15 days left to renew then we are good
-        if  renewal_length > datetime.timedelta(days=15):
+        #if we have more than 30 days left to renew then we are good
+        if  renewal_length > datetime.timedelta(days=30):
             logging.info(f"Certificates are Valid: {renewal_length} Remaining before expiry approaches...")
-            send_message_to_slack(f"Certificates are Valid: {renewal_length} Remaining before expiry approaches...")
 
     except Exception as err:
         error_handler(sys.exc_info()[2].tb_lineno, err)
