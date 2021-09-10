@@ -138,22 +138,26 @@ def check_expiry():
         renewal_length = enddate_obj - now_obj
         logging.info(f"Renewal length: {renewal_length}")
 
-        os.system(f"aws s3 cp expiry.log s3://{bucket}/")
-        logging.info(f"Uploaded expiry.log to: {bucket}")
 
         #if we have 0 days to renew send message to slack
         if renewal_length <= datetime.timedelta(days=0):
            logging.info(f"Your SSL Certificates for fms has expired by {renewal_length} days")
+           os.system(f"aws s3 cp expiry.log s3://{bucket}/")
+           logging.info(f"Uploaded expiry.log to: {bucket}")
            send_message_to_slack(f"Your SSL Certificates for fms has expired by {renewal_length} days")
 
         #if we have between 1 and 30 days left to renew send message to slack
         if  renewal_length <= datetime.timedelta(days=30) and renewal_length > datetime.timedelta(days=0):
             logging.info(f"Your SSL Certificates for fms is about to expire in {renewal_length} days")
+            os.system(f"aws s3 cp expiry.log s3://{bucket}/")
+            logging.info(f"Uploaded expiry.log to: {bucket}")
             send_message_to_slack(f"Your SSL Certificates for fms is about to expire in {renewal_length} days")
 
         #if we have more than 30 days left to renew then we are good
         if  renewal_length > datetime.timedelta(days=30):
             logging.info(f"Certificates are Valid: {renewal_length} Remaining before expiry approaches...")
+            os.system(f"aws s3 cp expiry.log s3://{bucket}/")
+            logging.info(f"Uploaded expiry.log to: {bucket}")
 
     except Exception as err:
         error_handler(sys.exc_info()[2].tb_lineno, err)
