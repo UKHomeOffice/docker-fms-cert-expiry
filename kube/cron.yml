@@ -34,7 +34,7 @@ spec:
               - containerPort: 5000
           - name: fms-cert-expiry
             command: ['sh', '-c', 'sleep 60 && python3 cert_expiry_monitor.py']
-            image: quay.io/ukhomeofficedigital/fms-cert-expiry:{{ .DRONE_COMMIT_SHA }}
+            image: quay.io/ukhomeofficedigital/fms_cert_expiry:{{ .DRONE_COMMIT_SHA }}
             imagePullPolicy: Always
             securityContext:
               runAsNonRoot: true
