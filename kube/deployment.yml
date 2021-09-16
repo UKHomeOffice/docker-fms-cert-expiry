@@ -1,68 +1,68 @@
-# apiVersion: apps/v1
-# kind: Deployment
-# metadata:
-#   name: fms-cert-expiry
-# spec:
-#   replicas: 1
-#   selector:
-#     matchLabels:
-#       name: fms-cert-expiry
-#   revisionHistoryLimit: 3
-#   template:
-#     metadata:
-#       labels:
-#         name: fms-cert-expiry
-#     spec:
-#       securityContext:
-#         fsGroup: 1000
-#       containers:
-#       - name: opensslsidekick
-#         image: quay.io/ukhomeofficedigital/dq-haproxy-openssl-sidekick:master
-#         imagePullPolicy: Always
-#         securityContext:
-#           runAsNonRoot: true
-#           runAsUser: 1000
-#         env:
-#         - name: HOST
-#           value: '10.3.0.11'
-#         - name: PORT
-#           value: '8089'
-#         ports:
-#           - containerPort: 5000
-#       - name: fms-cert-expiry
-#         image: quay.io/ukhomeofficedigital/fms_cert_expiry:{{ .DRONE_COMMIT_SHA }}
-#         imagePullPolicy: Always
-#         securityContext:
-#           runAsNonRoot: true
-#           runAsUser: 1000
-#         env:
-#           - name: AWS_ACCESS_KEY_ID
-#             valueFrom:
-#               secretKeyRef:
-#                 name: fms-cert-expiry
-#                 key: AWS_ACCESS_KEY_ID
-#           - name: AWS_SECRET_ACCESS_KEY
-#             valueFrom:
-#               secretKeyRef:
-#                 name: fms-cert-expiry
-#                 key: AWS_SECRET_ACCESS_KEY
-#           - name: AWS_DEFAULT_REGION
-#             valueFrom:
-#               secretKeyRef:
-#                 name: fms-cert-expiry
-#                 key: AWS_DEFAULT_REGION
-#           - name: BUCKET
-#             valueFrom:
-#               secretKeyRef:
-#                 name: fms-cert-expiry
-#                 key: BUCKET
-#           - name: GET_EXPIRY_COMMAND
-#             valueFrom:
-#               secretKeyRef:
-#                 name: fms-cert-expiry
-#                 key: GET_EXPIRY_COMMAND
-#           - name: SLACK_NOTIFICATION_WEBHOOK
-#             valueFrom:
-#               secretKeyRef:
-#                 name: fms-cert-expiry
-#                 key: SLACK_NOTIFICATION_WEBHOOK
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fms-cert-expiry
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: fms-cert-expiry
+  revisionHistoryLimit: 3
+  template:
+    metadata:
+      labels:
+        name: fms-cert-expiry
+    spec:
+      securityContext:
+        fsGroup: 1000
+      containers:
+      - name: opensslsidekick
+        image: quay.io/ukhomeofficedigital/dq-haproxy-openssl-sidekick:master
+        imagePullPolicy: Always
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1000
+        env:
+        - name: HOST
+          value: '10.3.0.11'
+        - name: PORT
+          value: '8089'
+        ports:
+          - containerPort: 5000
+      - name: fms-cert-expiry
+        image: quay.io/ukhomeofficedigital/fms_cert_expiry:{{ .DRONE_COMMIT_SHA }}
+        imagePullPolicy: Always
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1000
+        env:
+          - name: AWS_ACCESS_KEY_ID
+            valueFrom:
+              secretKeyRef:
+                name: fms-cert-expiry
+                key: AWS_ACCESS_KEY_ID
+          - name: AWS_SECRET_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                name: fms-cert-expiry
+                key: AWS_SECRET_ACCESS_KEY
+          - name: AWS_DEFAULT_REGION
+            valueFrom:
+              secretKeyRef:
+                name: fms-cert-expiry
+                key: AWS_DEFAULT_REGION
+          - name: BUCKET
+            valueFrom:
+              secretKeyRef:
+                name: fms-cert-expiry
+                key: BUCKET
+          - name: GET_EXPIRY_COMMAND
+            valueFrom:
+              secretKeyRef:
+                name: fms-cert-expiry
+                key: GET_EXPIRY_COMMAND
+          - name: SLACK_NOTIFICATION_WEBHOOK
+            valueFrom:
+              secretKeyRef:
+                name: fms-cert-expiry
+                key: SLACK_NOTIFICATION_WEBHOOK
