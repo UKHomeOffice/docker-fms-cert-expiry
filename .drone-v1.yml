@@ -109,8 +109,8 @@ steps:
       from_secret: AWS_DEFAULT_REGION
     GET_EXPIRY_COMMAND:
       from_secret: GET_EXPIRY_COMMAND
-    PROD_SLACK_IFICATION_WEBHOOK:
-      from_secret: PROD_SLACK_IFICATION_WEBHOOK
+    PROD_SLACK_NOTIFICATION_WEBHOOK:
+      from_secret: PROD_SLACK_NOTIFICATION_WEBHOOK
   when:
     event:
     - push
