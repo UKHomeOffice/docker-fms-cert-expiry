@@ -158,7 +158,6 @@ def check_expiry():
             logging.info(f"FMS Certificates are Valid: {renewal_length} Remaining before expiry approaches...")
             os.system(f"aws s3 cp expiry.log s3://{bucket}/")
             logging.info(f"Uploaded expiry.log to: {bucket}")
-            send_message_to_slack(f"FMS Certificates are Valid: {renewal_length} Remaining before expiry approaches...")
 
     except Exception as err:
         error_handler(sys.exc_info()[2].tb_lineno, err)
