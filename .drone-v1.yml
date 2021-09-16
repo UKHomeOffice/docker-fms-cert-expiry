@@ -54,7 +54,7 @@ steps:
   - export GET_EXPIRY_COMMAND=$$GET_EXPIRY_COMMAND
   - export SLACK_NOTIFICATION_WEBHOOK=$$NOTPROD_SLACK_NOTIFICATION_WEBHOOK
   - kd --delete --file kube/deployment.yml
-  - kd -f kube/secret.yml -f kube/cron.yml
+  - kd -f kube/secret.yml 
   environment:
     INSECURE_SKIP_TLS_VERIFY: true
     KUBE_NAMESPACE: dq-apps-notprod
