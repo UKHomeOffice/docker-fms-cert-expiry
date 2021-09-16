@@ -59,11 +59,6 @@
 #                 secretKeyRef:
 #                   name: fms-cert-expiry
 #                   key: GET_EXPIRY_COMMAND
-#             - name: SLACK_NOTIFICATION_WEBHOOK
-#               valueFrom:
-#                 secretKeyRef:
-#                   name: fms-cert-expiry
-#                   key: SLACK_NOTIFICATION_WEBHOOK
 #           restartPolicy: OnFailure
 #           imagePullSecrets:
 #             - name: ga-backend-artifactory-secret

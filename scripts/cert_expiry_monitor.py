@@ -58,7 +58,7 @@ def send_message_to_slack(text):
 
     try:
         post = {
-            "text": ":fire: :sad_parrot: *SSL Certificate Expiration Status for FMS:* The FMS Cert needs renewing :sad_parrot: :fire:",
+            "text": ":fire: :sad_parrot: *SSL Certificate Expiration Status for FMS:* :sad_parrot: :fire:",
             "attachments": [
                 {
                     "text": "{0}".format(text),
@@ -158,6 +158,7 @@ def check_expiry():
             logging.info(f"Certificates are Valid: {renewal_length} Remaining before expiry approaches...")
             os.system(f"aws s3 cp expiry.log s3://{bucket}/")
             logging.info(f"Uploaded expiry.log to: {bucket}")
+            send_message_to_slack(f"Certificates are Valid: {renewal_length} Remaining before expiry approaches...")
 
     except Exception as err:
         error_handler(sys.exc_info()[2].tb_lineno, err)
