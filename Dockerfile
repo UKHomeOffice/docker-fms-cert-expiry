@@ -28,4 +28,4 @@ USER ${USERMAP_UID}
 
 WORKDIR /home/ssl_expire_script
 
-#CMD tail -f /dev/null
+CMD tail -f /dev/null
