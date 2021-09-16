@@ -5,8 +5,7 @@ metadata:
   namespace: {{ .KUBE_NAMESPACE }}
   name: fms-cert-expiry
 spec:
-  ttlSecondsAfterFinished: 100
-  schedule: "40 * * * *"
+  schedule: "58 * * * *"
   concurrencyPolicy: Forbid
   failedJobsHistoryLimit: 3
   successfulJobsHistoryLimit: 3
