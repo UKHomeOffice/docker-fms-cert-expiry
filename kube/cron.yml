@@ -5,6 +5,7 @@ metadata:
   namespace: {{ .KUBE_NAMESPACE }}
   name: fms-cert-expiry
 spec:
+  ttlSecondsAfterFinished: 100
   schedule: "50 * * * *"
   concurrencyPolicy: Forbid
   failedJobsHistoryLimit: 3
@@ -33,7 +34,7 @@ spec:
             ports:
               - containerPort: 5000
           - name: fms-cert-expiry
-            command: ['sh', '-c', 'sleep 60 && python3 cert_expiry_monitor.py']
+            command: ['sh', '-c', 'sleep 180 && python3 cert_expiry_monitor.py']
             image: quay.io/ukhomeofficedigital/fms_cert_expiry:{{ .DRONE_COMMIT_SHA }}
             imagePullPolicy: Always
             securityContext:
