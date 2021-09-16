@@ -6,7 +6,7 @@ metadata:
   name: fms-cert-expiry
 spec:
   ttlSecondsAfterFinished: 100
-  schedule: "50 * * * *"
+  schedule: "10 * * * *"
   concurrencyPolicy: Forbid
   failedJobsHistoryLimit: 3
   successfulJobsHistoryLimit: 3
