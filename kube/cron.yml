@@ -18,20 +18,6 @@ spec:
           labels:
             name: fms-cert-expiry
         spec:
-          containers:
-          # - name: opensslsidekick
-          #   image: quay.io/ukhomeofficedigital/dq-haproxy-openssl-sidekick:master
-          #   imagePullPolicy: Always
-          #   securityContext:
-          #     runAsNonRoot: true
-          #     runAsUser: 1000
-          #   env:
-          #   - name: HOST
-          #     value: '10.3.0.11'
-          #   - name: PORT
-          #     value: '8089'
-          #   ports:
-          #     - containerPort: 5000
           - name: fms-cert-expiry
             command: ['sh', '-c', 'sleep 180 && python3 cert_expiry_monitor.py']
             image: quay.io/ukhomeofficedigital/fms_cert_expiry:{{ .DRONE_COMMIT_SHA }}
