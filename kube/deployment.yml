@@ -61,3 +61,8 @@ spec:
               secretKeyRef:
                 name: fms-cert-expiry
                 key: GET_EXPIRY_COMMAND
+          - name: SLACK_NOTIFICATION_WEBHOOK
+            valueFrom:
+              secretKeyRef:
+                name: fms-cert-expiry
+                key: SLACK_NOTIFICATION_WEBHOOK
